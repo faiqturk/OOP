@@ -1,34 +1,31 @@
 <?php
 
-    get_header();
+get_header();
 
-            $curentpage = get_query_var('paged');
-            $args = array
-            (
-                'post_type'      => 'project',
-                'posts_per_page' => '-1',
-                'publish_status' => 'published',
-                'paged'          => $curentpage
-            );?>
+$curentpage = get_query_var('paged');
+$args = array(
+    'post_type'      => 'project',
+    'posts_per_page' => '-1',
+    'publish_status' => 'published',
+    'paged'          => $curentpage
+);
+
+?>
                    
-    <div class="container">
-            <form action="/" method="get"  autocomplete="off">
-            <input type="text" name="s" placeholder="Search Code..." id="keyword" class="input_search" >
+<div class="container">
+    <form action="/" method="get"  autocomplete="off">
+        <input type="text" name="s" placeholder="Search Code..." id="keyword" class="input_search" >
+        <select id="mySelection">
+            <option value="">-- Select --</option>
+            <option value="new">NEW</option>
+            <option value="old">OLD</option>
+            <option value="asc">ASC</option>
+            <option value="desc">DESC</option>
+        </select>
+    </form>
 
-            <!--     Dropdown -->
-                <select id="mySelection">
-                    <option value="">-- Select --</option>
-                    <option value="new">NEW</option>
-                    <option value="old">OLD</option>
-                    <option value="asc">ASC</option>
-                    <option value="desc">DESC</option>
-                </select>
-            </form>
-  
-         <?php
-        $query = new WP_Query($args);
-        ?>
-  
+    <?php $query = new WP_Query($args); ?>
+
     <div class="row">   
             <?php
 
@@ -63,7 +60,7 @@
         </div>
         </div>
     </div>
-    </div>
+</div>
 
 <?php 
 

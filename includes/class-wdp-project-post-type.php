@@ -3,27 +3,28 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+if ( ! class_exists( 'WPD_Project_Post_Type' ) ) {
+
     /**
-	 * Class Custom_Post.
+	 * Class WPD_Project_Post_Type.
 	 */
-	class Custom_Post {
+	class WPD_Project_Post_Type {
 
 		/**
 		 *  Constructor.
 		 */
 		public function __construct() {
 
-            add_action( 'init', array( $this, 'cpf_custom_post_type'));
-            add_filter( 'archive_template',  array( $this, 'plugin_archive_template') ) ;
-
+            add_action( 'init', array( $this, 'wdp_project_post_type'));
+           
         }
         /**
-		 *  Custom Post Type Function.
+		 *  project page Custom Post Type Function.
 		 */
-        public function cpf_custom_post_type(){
+        public function wdp_project_post_type(){
 
             $labels = array(
-                'name'                  => __( 'projects'),
+                'name'                  => __( 'projects', 'first-plugin'),
                 'singular_name'         => __( 'project'),
                 'menu_name'             => __( 'projects'),
                 'name_admin_bar'        => __( 'project'),
@@ -67,16 +68,6 @@ if ( ! defined( 'ABSPATH' ) ) {
             );
             register_post_type( 'projects', $args );
         }
-
-        
-        public function plugin_archive_template( $archive ) {
-            // print_r("archive");
-            // die();
-           
-                $archive = FIRST_ABSPATH . '/template/archive-project.php';
-            
-                return $archive;
-                // var_dump($archive);
-        }
     }
-new Custom_Post();
+}
+new WPD_Project_Post_Type();

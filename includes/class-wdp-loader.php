@@ -9,25 +9,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'plugin_Loader' ) ) {
+if ( ! class_exists( 'WDP_Loader' ) ) {
 
 	/**
-	 * Class FIRST_Loader.
+	 * Class WDP_Loader.
 	 */
-	class plugin_Loader {
+	class WDP_Loader {
 
 		/**
 		 *  Constructor.
 		 */
 		public function __construct() {
 			$this->includes();
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action('wp_enqueue_scripts', array($this, 'wdp_enqueue_scripts'));
+			add_action('admin_enqueue_scripts', array( $this,'wdp_admin_enqueue_scripts'));
 			// Search
-			add_action('wp_ajax_data_fetch' , array( $this, 'data_fetch'));
-			add_action('wp_ajax_nopriv_data_fetch', array( $this,'data_fetch'));
+			add_action('wp_ajax_data_fetch' , array( $this, 'wdp_data_search'));
+			add_action('wp_ajax_nopriv_data_fetch', array( $this,'wdp_data_search'));
 			// ASC and DESC
-			add_action('wp_ajax_data_drop' , array( $this, 'data_drop'));
-			add_action('wp_ajax_nopriv_data_drop' , array( $this, 'data_drop'));
+			add_action('wp_ajax_data_drop' , array( $this, 'wdp_data_sorting'));
+			add_action('wp_ajax_nopriv_data_drop' , array( $this, 'wdp_data_sorting'));
 			
 		}
 
@@ -35,26 +36,41 @@ if ( ! class_exists( 'plugin_Loader' ) ) {
 		 * Include Files depend on platform.
 		 */
 		public function includes() {
-			include_once 'class-plugin-custom-post-type.php';
-			include_once 'class-plugin-meta-box.php';
-			include_once 'class-plugin-shortcode.php';
+			include_once 'class-wpd-custom-post-type.php';
+			include_once 'class-wpd-meta-box.php';
+			include_once 'class-wpd-discount.php';
+			include_once 'class-wpd-shortcode.php';
 		}
 		/**
 		 * Enqueue Files.
 		 */
-		public function enqueue_scripts() {
-			wp_enqueue_script( 'script', plugin_dir_url( __DIR__ ) . 'assets/js/script.js', array('jquery'), wp_rand() );
-    		wp_localize_script('script', 'ajax_object', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ));
-			wp_enqueue_style('parent', plugin_dir_url( __DIR__ ) . '/assets/css/style.css');
+		public function wdp_enqueue_scripts() {
+			wp_enqueue_script( 'wpd_script', plugin_dir_url( __DIR__ ) . 'assets/js/script.js', array('jquery'), wp_rand() );
+    		wp_localize_script('wpd_script', 'ajax_object', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ));
+			wp_enqueue_style('wpd_parent', plugin_dir_url( __DIR__ ) . 'assets/css/style.css');
+			
 			// print_r(plugin_dir_url(__DIR__). '/assets/css/style.css');die();
 		}
-		
-		public function data_fetch(){
+		/**
+		 * Enqueue File For Admin.
+		 */
+		public function wdp_admin_enqueue_scripts() {
+			wp_enqueue_style('wpd_parent', plugin_dir_url( __DIR__ ) . 'assets/css/style.css');
+			// print_r(plugin_dir_url( __DIR__ ) . 'assets/css/style.css');die();
+			wp_enqueue_script( 'wpd_script', plugin_dir_url( __DIR__ ) . 'assets/js/script.js', array('jquery'), wp_rand() );
+		}
+		/**
+		 * Search bar for project page.
+		 */
+		public function wdp_data_search(){
 
-			$the_query = new WP_Query( array( 
+			$args = array( 
 				'posts_per_page' => 3, 
 				's' => esc_attr( $_POST['keyword'] ), 
-				'post_type' => 'project' ) );
+				'post_type' => 'project' 
+			);
+			
+			$the_query = new WP_Query( $args );
 			if( $the_query->have_posts() ) :?>
 				
 			<?php
@@ -72,7 +88,10 @@ if ( ! class_exists( 'plugin_Loader' ) ) {
 			die();
 			
 		}
-		public function data_drop() {
+		/**
+		 * Sorting for project page.
+		 */
+		public function wdp_data_sorting() {
 
 
 			$curentpage = get_query_var('paged');
@@ -129,4 +148,4 @@ if ( ! class_exists( 'plugin_Loader' ) ) {
 	}
 }
 
-new plugin_Loader();
+new WDP_Loader();

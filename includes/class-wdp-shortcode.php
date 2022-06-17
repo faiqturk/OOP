@@ -8,27 +8,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'PLUGIN_SHORTCODE' ) ) {
+if ( ! class_exists( 'WDP_Shortcode' ) ) {
 
 	/**
-	 * Class PLUGIN_SHORTCODE.
+	 * Class WDP_Shortcode.
 	 */
-	class PLUGIN_SHORTCODE {
+	class WDP_Shortcode {
         /**
 		 *  Constructor.
 		 */
         public function __construct() {
-             add_shortcode( 'list', array( $this,'shortcode_movie_post_type') ); 
+             add_shortcode( 'list', array( $this,'wpd_shortcode_project_post') ); 
         }
-        public function shortcode_movie_post_type()
+        /**
+		 *  Shortcode for display project page code.
+		 */
+        public function wdp_shortcode_project_post()
         {
             $curentpage = get_query_var('paged');
             $args = array(
-                            'post_type'      => 'project',
-                            'posts_per_page' => '3',
-                            'publish_status' => 'published',
-                            'paged' => $curentpage
-                         );
+                        'post_type'      => 'project',
+                        'posts_per_page' => '3',
+                        'publish_status' => 'published',
+                        'paged' => $curentpage
+                    );
           
             $query = new WP_Query($args);
           
@@ -58,4 +61,4 @@ if ( ! class_exists( 'PLUGIN_SHORTCODE' ) ) {
         }
     }
 }
-new PLUGIN_SHORTCODE();
+new WDP_Shortcode();

@@ -35,4 +35,15 @@ jQuery(document).ready(function($){
         }
         });
     });
+        // $('#checked').on('click', function(){
+        //   $(this).closest('.checkbox').find('.ch_for').toggle();
+        // })
+        $('input[type="checkbox"]').click(function(){
+            if($(this).prop("checked") == true){
+                $('#collect_product_id').show();   
+            }
+            else if($(this).prop("checked") == false){
+                $('#collect_product_id').hide();
+            }
+        });
 });

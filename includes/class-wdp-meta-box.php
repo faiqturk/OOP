@@ -8,27 +8,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'PLUGIN_Meta_box' ) ) {
+if ( ! class_exists( 'WDP_Project_Meta_box' ) ) {
 
 	/**
-	 * Class PLUGIN_Meta_box.
+	 * Class WDP_Project_Meta_box.
 	 */
-	class PLUGIN_Meta_box {
+	class WDP_Project_Meta_box {
         /**
 		 *  Constructor.
 		 */
 		public function __construct() {
-             add_action("add_meta_boxes",array( $this,"register_metabox"));
-             add_action("save_post",array( $this,"save_values"),10,2);
+             add_action("add_meta_boxes",array( $this,"wdp_register_metabox"));
+             add_action("save_post",array( $this,"wdp_save_values"),10,2);
         }
 
-
-        // Register Custom Post Type project
-        public function register_metabox(){
+      /**
+		 *  Register meta-box of project
+		 */
+        // 
+        public function wdp_register_metabox(){
              add_meta_box( "cpt-id", "Details",array( $this, "call_metabox"), "projects","side","high");
         }
-       
-        public function call_metabox($post){
+        /**
+		 *  getting data from metabox(custom field).
+		 */
+        public function wpd_call_metabox($post){
         ?>
            <p>
             <label> Name </label>
@@ -42,11 +46,17 @@ if ( ! class_exists( 'PLUGIN_Meta_box' ) ) {
            </p>
        <?php
         } 
-
-        // getting data from (custom field) metabox
-        public function save_values($post_id, $post){
+         /**
+		 *  Save data of metabox and edit.
+		 */
+        public function wpd_save_values($post_id, $post){
         
             $textName = isset($_POST['textName'])?$_POST['textName']:"";
+            if ( isset($_POST['textName']) ) {
+               echo $_POST['textName'];
+            } else {
+               echo '';
+            }
             $textEmail = isset($_POST['textEmail'])?$_POST['textEmail']:"";
         
             update_post_meta( $post_id,"post_name",$textName);
@@ -55,6 +65,6 @@ if ( ! class_exists( 'PLUGIN_Meta_box' ) ) {
 
     }
 }
-new PLUGIN_Meta_box();
+new WDP_Project_Meta_box();
 
   

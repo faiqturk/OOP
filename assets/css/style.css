@@ -1,6 +1,10 @@
  body{
  	background-color: lightgrey !important;
  }
+ #collect_product_id{
+	display: none;
+ }
+
  /* .div{
  	
  	border: 2px black solid;
