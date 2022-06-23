@@ -3,28 +3,28 @@
  * Plugin Name: WPD Codup plugin 
  * Description: Made for the customization of theme.
  * Version: 1.1.1.7
- * Author: Harry
- * Author URI: https://abc.com/
+ * Author: Codup
+ * Author URI: https://codup.co/
  * Text Domain: WPD-plugin
  * WC requires at least: 3.8.0
  * WC tested up to: 5.1.0
  *
- * @package plugin
+ * @package WPD-plugin
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! defined( 'WPD_PLUGIN_DIR' ) ) {
+if ( ! defined( 'WDP_PLUGIN_DIR' ) ) {
 	define( 'WPD_PLUGIN_DIR', __DIR__ );
 }
 
-if ( ! defined( 'WPD_PLUGIN_DIR_URL' ) ) {
+if ( ! defined( 'WDP_PLUGIN_DIR_URL' ) ) {
 	define( 'WPD_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
 }
 
-if ( ! defined( 'WPD_ABSPATH' ) ) {
+if ( ! defined( 'WDP_ABSPATH' ) ) {
 	define( 'WPD_ABSPATH', dirname( __FILE__ ) );
 }
 
